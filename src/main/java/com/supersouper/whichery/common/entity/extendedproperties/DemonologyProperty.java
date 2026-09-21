@@ -11,14 +11,14 @@ public class DemonologyProperty implements IExtendedEntityProperties {
 
     public static final String KEY = Whichery.MODID + "DemonologyProperty";
 
-    private boolean canSeeGlowingEyesOfDemonHosts;
+    private boolean canSeeDemonsPossessingHosts;
 
-    public boolean isCanSeeGlowingEyesOfDemonHosts() {
-        return canSeeGlowingEyesOfDemonHosts;
+    public boolean isCanSeeDemonsPossessingHosts() {
+        return canSeeDemonsPossessingHosts;
     }
 
-    public void setCanSeeGlowingEyesOfDemonHosts(boolean canSeeGlowingEyesOfDemonHosts) {
-        this.canSeeGlowingEyesOfDemonHosts = canSeeGlowingEyesOfDemonHosts;
+    public void setCanSeeDemonsPossessingHosts(boolean canSeeDemonsPossessingHosts) {
+        this.canSeeDemonsPossessingHosts = canSeeDemonsPossessingHosts;
     }
 
     public static DemonologyProperty get(EntityPlayer player) {
@@ -36,19 +36,19 @@ public class DemonologyProperty implements IExtendedEntityProperties {
 
     @Override
     public void saveNBTData(NBTTagCompound compound) {
-        var tag = new NBTTagCompound();
+        NBTTagCompound tag = new NBTTagCompound();
 
-        tag.setBoolean("canSeeGlowingEyesOfDemonHosts", canSeeGlowingEyesOfDemonHosts);
+        tag.setBoolean("CanSeeDemonsPossessingHosts", canSeeDemonsPossessingHosts);
 
         compound.setTag(KEY, tag);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
-        var tag = compound.getCompoundTag(KEY);
+        NBTTagCompound tag = compound.getCompoundTag(KEY);
 
         if (tag != null) {
-            canSeeGlowingEyesOfDemonHosts = tag.getBoolean("canSeeGlowingEyesOfDemonHosts");
+            canSeeDemonsPossessingHosts = tag.getBoolean("CanSeeDemonsPossessingHosts");
         }
     }
 

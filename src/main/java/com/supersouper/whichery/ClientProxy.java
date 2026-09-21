@@ -1,5 +1,7 @@
 package com.supersouper.whichery;
 
+import cpw.mods.fml.common.event.FMLInterModComms;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
