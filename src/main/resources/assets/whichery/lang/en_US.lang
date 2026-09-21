@@ -30,3 +30,4 @@ tooltip.family.potency=(Potency: %s)
 
 ### Entities
 entity.whichery.MandrakeRoot.name=Mandrake Root
+entity.whichery.PossessedChicken.name=Possessed Chicken
