@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.supersouper.whichery.common.entity.ai.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +24,7 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
 
     protected final EntityAIProfileManager entityAIProfileManager = new EntityAIProfileManager(this);
 
-    private final EntityAIProfile MIMIC_NORMAL_CHICKEN_PROFILE = new EntityAIProfile(
+    private final EntityAIProfile MIMIC_NORMAL_CHICKEN_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
             new EntityAIPanic(this, 1.4D), 1,
             new EntityAIMate(this, 1.0D), 2,
@@ -35,35 +34,35 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
         emptyMap()
     );
 
-    private final EntityAIProfile BERSERK_PROFILE = new EntityAIProfile(
+    private final EntityAIProfile BERSERK_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
             new EntityAIAttackOnCollide(this, EntityChicken.class, 1.0D, false), 3,
             new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false), 4,
             new EntityAIMoveTowardsTarget(this, 1.8, 16), 5
         ),
         ImmutableMap.of(
-            new EntityAINearestAttackableTarget(this, EntityChicken.class, 10, false), 4,
+            new EntityAINearestAttackableTarget(this, EntityChicken.class, 10, false, false, entity -> entity instanceof EntityChicken && !(entity instanceof EntityPossessedChicken)), 4,
             new EntityAINearestAttackableTarget(this, EntityPlayer.class, 5, false), 5
         )
     );
 
-    private final EntityAIProfile WEIRD_PROFILE = new EntityAIProfile(
+    private final EntityAIProfile WEIRD_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
-            new EntityAIWatchClosestForDuration(this, EntityPlayer.class, 16, 0.05f, minutesToTicks(2), true), 4,
-            new EntityAIStareDown(this, 0.005f, minutesToTicks(4)), 5,
-            new EntityAIJumpAndScream(this, 0.2f, getHurtSound()), 6
+            new EntityAICreepyStare(this, EntityPlayer.class, 16, 0.5f, minutesToTicks(2), true), 4,
+            new EntityAIStareWeird(this, 0.5f, minutesToTicks(4)), 5,
+            new EntityAIJumpAndScream(this, 1f, getHurtSound()), 6
         ),
         emptyMap()
     );
 
     private final Map<EnumPossessedAnimalBehavior, EntityAIProfile> AI_PROFILES_BY_BEHAVIOR = ImmutableMap.of(
-        EnumPossessedAnimalBehavior.MIMIC_NORMAL, MIMIC_NORMAL_CHICKEN_PROFILE,
-        EnumPossessedAnimalBehavior.BERSERK, BERSERK_PROFILE,
-        EnumPossessedAnimalBehavior.WEIRD, WEIRD_PROFILE
+        EnumPossessedAnimalBehavior.MIMIC_NORMAL, MIMIC_NORMAL_CHICKEN_AI_PROFILE,
+        EnumPossessedAnimalBehavior.BERSERK, BERSERK_AI_PROFILE,
+        EnumPossessedAnimalBehavior.WEIRD, WEIRD_AI_PROFILE
     );
 
     private EnumPossessedAnimalBehavior possessedAnimalBehavior = EnumPossessedAnimalBehavior.MIMIC_NORMAL;
-    private int possessedAnimalBehaviorDurationTicks = minutesToTicks(30);
+    private int possessedAnimalBehaviorDurationTicks = minutesToTicks(60);
 
     public EntityPossessedChicken(World world) {
         super(world);
@@ -82,11 +81,11 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
         this.tasks.addTask(9, new EntityAILookIdle(this));
 
         // Applies the AI profile for the default behavior
-        setPossessedAnimalBehavior(possessedAnimalBehavior, minutesToTicks(30));
+        setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(60));
     }
 
-    public boolean attackEntityAsMob(Entity p_70652_1_) {
-        return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+    public boolean attackEntityAsMob(Entity entityToAttack) {
+        return entityToAttack.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
     }
 
     @Override
@@ -137,46 +136,55 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
     private void decideNewPossessedAnimalBehavior() {
         switch (possessedAnimalBehavior) {
             case BERSERK:
-                setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(30));
+                setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(60));
                 break;
             case MIMIC_NORMAL:
-                int randomNumber = getRNG().nextInt(15);
+                int diceRollAfterMimicNormal = getRNG().nextInt(15);
 
-                if (randomNumber == 0) {
+                if (diceRollAfterMimicNormal == 0) {
                     setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.BERSERK, minutesToTicks(0.75));
-                } else if (randomNumber < 5) {
+                } else if (diceRollAfterMimicNormal < 5) {
                     setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.WEIRD, minutesToTicks(5));
                 } else {
                     setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(10));
                 }
                 break;
             case WEIRD:
-                int randomNumber2 = getRNG().nextInt(10);
+                int diceRollAfterWeird = getRNG().nextInt(10);
 
-                if (randomNumber2 == 0) {
+                if (diceRollAfterWeird == 0) {
                     setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.BERSERK, minutesToTicks(0.5));
-                } else if (randomNumber2 < 3) {
+                } else if (diceRollAfterWeird < 3) {
                     setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.WEIRD, minutesToTicks(3));
                 } else {
-                    setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(20));
+                    setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.MIMIC_NORMAL, minutesToTicks(30));
                 }
                 break;
         }
     }
 
     @Override
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
-        setGrowingAge(-minutesToTicks(2));
-        setPossessedAnimalBehavior(EnumPossessedAnimalBehavior.WEIRD, minutesToTicks(2));
-
-        return super.onSpawnWithEgg(data);
-    }
-
-    @Override
     public EntityLiving createUnpossessedDummyHostEntity() {
         EntityChicken chicken = new EntityChicken(worldObj);
         chicken.setHealth(this.getHealth());
+        chicken.setGrowingAge(this.getGrowingAge());
 
         return chicken;
+    }
+
+    public static EntityPossessedChicken createPossessedChicken(EntityChicken chicken) {
+        EntityPossessedChicken possessedChicken = new EntityPossessedChicken(chicken.worldObj);
+        possessedChicken.setLocationAndAngles(
+            chicken.posX,
+            chicken.posY,
+            chicken.posZ,
+            chicken.rotationYaw,
+            chicken.rotationPitch
+        );
+
+        possessedChicken.setHealth(chicken.getHealth());
+        possessedChicken.setGrowingAge(chicken.getGrowingAge());
+
+        return possessedChicken;
     }
 }

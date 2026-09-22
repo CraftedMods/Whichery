@@ -3,19 +3,20 @@ package com.supersouper.whichery.common.entity.ai;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public class EntityAIStareDown extends EntityAIBase {
+public class EntityAIStareWeird extends EntityAIBase {
 
     private final EntityLiving entity;
     private final float chancePerTickInPercent;
     private final int maxDurationTicks;
 
     private int durationTicks;
+    private int yOffset;
 
-    public EntityAIStareDown(EntityLiving entity, float chancePerTickInPercent, int maxDurationTicks) {
+    public EntityAIStareWeird(EntityLiving entity, float chancePerTickInPercent, int maxDurationTicks) {
         this.entity = entity;
         this.chancePerTickInPercent = chancePerTickInPercent;
         this.maxDurationTicks = maxDurationTicks;
-        this.setMutexBits(3);
+        this.setMutexBits(0b11); // Exclude other wander (01) and look (10) tasks
     }
 
     @Override
@@ -30,15 +31,21 @@ public class EntityAIStareDown extends EntityAIBase {
     }
 
     @Override
+    public boolean isInterruptible() {
+        return false;
+    }
+
+    @Override
     public void startExecuting() {
         int halfLookTimeTicks = this.maxDurationTicks / 2;
         this.durationTicks = halfLookTimeTicks + this.entity.getRNG().nextInt(halfLookTimeTicks);
+        this.yOffset = this.entity.getRNG().nextBoolean() ? 1 : 0; // Either stare up or down
     }
 
     @Override
     public void updateTask() {
         this.entity.getLookHelper().setLookPosition(
-            this.entity.posX, this.entity.posY, this.entity.posZ, 10.0F, this.entity.getVerticalFaceSpeed()
+            this.entity.posX, this.entity.posY + this.yOffset, this.entity.posZ, 10.0F, this.entity.getVerticalFaceSpeed()
         );
     }
 }

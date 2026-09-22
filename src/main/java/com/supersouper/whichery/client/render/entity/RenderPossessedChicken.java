@@ -50,7 +50,7 @@ public class RenderPossessedChicken extends RenderChicken {
             adjustBrightnessToSurroundings(chicken, partialTicks);
 
             // Scale the eye layer a bit so we don't have z-fighting
-            float scale = 1.003F;
+            float scale = 1.003F; // todo is scale necessary or only translate?
             GL11.glScalef(scale, scale, scale);
             GL11.glTranslatef(0.0F, -0.002F, 0.0F);
 

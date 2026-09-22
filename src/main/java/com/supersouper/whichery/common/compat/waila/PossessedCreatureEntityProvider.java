@@ -21,8 +21,7 @@ public class PossessedCreatureEntityProvider implements IWailaEntityProvider {
     public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         Entity entity = accessor.getEntity();
 
-        if (entity instanceof IPossessedEntity) {
-            IPossessedEntity possessedEntity = (IPossessedEntity) entity;
+        if (entity instanceof IPossessedEntity possessedEntity) {
             EntityPlayer player = accessor.getPlayer();
             DemonologyProperty demonologyProperty = DemonologyProperty.get(player);
 

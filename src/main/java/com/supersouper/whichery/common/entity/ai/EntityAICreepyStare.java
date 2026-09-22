@@ -5,7 +5,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EntityAIWatchClosestForDuration extends EntityAIBase {
+/**
+ * Similar to {@link net.minecraft.entity.ai.EntityAIWatchClosest}, but more configurable and not interruptible. Intended
+ * for long, uninterrupted staring.
+ */
+public class EntityAICreepyStare extends EntityAIBase {
 
     private final EntityLiving watcherEntity;
     protected Entity watchedEntity;
@@ -18,12 +22,12 @@ public class EntityAIWatchClosestForDuration extends EntityAIBase {
 
     private int lookTimeTicks;
 
-    public EntityAIWatchClosestForDuration(EntityLiving watcherEntity,
-                                           Class<? extends Entity> watchedEntityClass,
-                                           float maxLookDistance,
-                                           float chancePerTickInPercent,
-                                           int maxLookTimeTicks,
-                                           boolean mutexWandering) {
+    public EntityAICreepyStare(EntityLiving watcherEntity,
+                               Class<? extends Entity> watchedEntityClass,
+                               float maxLookDistance,
+                               float chancePerTickInPercent,
+                               int maxLookTimeTicks,
+                               boolean mutexWandering) {
         this.watcherEntity = watcherEntity;
         this.watchedEntityClass = watchedEntityClass;
         this.maxLookDistance = maxLookDistance;
@@ -62,6 +66,11 @@ public class EntityAIWatchClosestForDuration extends EntityAIBase {
     public void startExecuting() {
         int halfLookTimeTicks = this.maxLookTimeTicks / 2;
         this.lookTimeTicks = halfLookTimeTicks + this.watcherEntity.getRNG().nextInt(halfLookTimeTicks);
+    }
+
+    @Override
+    public boolean isInterruptible() {
+        return false;
     }
 
     @Override

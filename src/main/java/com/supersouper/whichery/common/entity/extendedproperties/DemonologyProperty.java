@@ -1,8 +1,11 @@
 package com.supersouper.whichery.common.entity.extendedproperties;
 
 import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.network.PacketHandler;
+import com.supersouper.whichery.common.network.s2c.DemonologyStatsPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -11,14 +14,17 @@ public class DemonologyProperty implements IExtendedEntityProperties {
 
     public static final String KEY = Whichery.MODID + "DemonologyProperty";
 
-    private boolean canSeeDemonsPossessingHosts;
+    private boolean canSeeDemonsPossessingHosts; // todo defauult value
 
     public boolean isCanSeeDemonsPossessingHosts() {
         return canSeeDemonsPossessingHosts;
     }
 
-    public void setCanSeeDemonsPossessingHosts(boolean canSeeDemonsPossessingHosts) {
-        this.canSeeDemonsPossessingHosts = canSeeDemonsPossessingHosts;
+    public void setCanSeeDemonsPossessingHosts(boolean canSeeDemonsPossessingHosts, EntityPlayer player) {
+        if (this.canSeeDemonsPossessingHosts != canSeeDemonsPossessingHosts) {
+            this.canSeeDemonsPossessingHosts = canSeeDemonsPossessingHosts;
+            syncToClient(player);
+        }
     }
 
     public static DemonologyProperty get(EntityPlayer player) {
@@ -29,7 +35,7 @@ public class DemonologyProperty implements IExtendedEntityProperties {
         if (!player.worldObj.isRemote) {
             DemonologyProperty props = get(player);
             if (props != null) {
-                // todo PacketHandler.INSTANCE.sendTo(new VampireStatsPacket(props), (EntityPlayerMP) player);
+                PacketHandler.INSTANCE.sendTo(new DemonologyStatsPacket(props), (EntityPlayerMP) player);
             }
         }
     }

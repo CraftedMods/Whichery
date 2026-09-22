@@ -35,6 +35,11 @@ public class EntityAIJumpAndScream extends EntityAIBase {
     }
 
     @Override
+    public boolean isInterruptible() {
+        return false;
+    }
+
+    @Override
     public void updateTask() {
         if (this.entity.onGround && this.entity.motionY <= 0) {
             jumpAndScream();
