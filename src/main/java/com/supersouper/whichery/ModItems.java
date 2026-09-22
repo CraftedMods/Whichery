@@ -1,13 +1,15 @@
 package com.supersouper.whichery;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 import com.supersouper.whichery.common.items.ItemAppleThatMakesYouSeeDemons;
 import com.supersouper.whichery.common.items.ItemChalk;
 import com.supersouper.whichery.common.items.ItemRawChickenThatMakesYouBecomeAVampire;
 import com.supersouper.whichery.common.items.seeds.ItemSeedMandrake;
 import com.supersouper.whichery.common.items.seeds.ItemSeedWitchesThimble;
+
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 // Credit to Et Futurum (Requiem)
 public enum ModItems {

@@ -15,6 +15,7 @@ public class PacketHandler {
         int packetId = 0;
 
         INSTANCE.registerMessage(VampireStatsPacket.Handler.class, VampireStatsPacket.class, packetId++, Side.CLIENT);
-        INSTANCE.registerMessage(DemonologyStatsPacket.Handler.class, DemonologyStatsPacket.class, packetId++, Side.CLIENT);
+        INSTANCE
+            .registerMessage(DemonologyStatsPacket.Handler.class, DemonologyStatsPacket.class, packetId++, Side.CLIENT);
     }
 }

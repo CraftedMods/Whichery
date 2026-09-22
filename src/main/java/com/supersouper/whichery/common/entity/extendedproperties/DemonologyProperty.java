@@ -1,14 +1,15 @@
 package com.supersouper.whichery.common.entity.extendedproperties;
 
-import com.supersouper.whichery.Whichery;
-import com.supersouper.whichery.common.network.PacketHandler;
-import com.supersouper.whichery.common.network.s2c.DemonologyStatsPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+
+import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.network.PacketHandler;
+import com.supersouper.whichery.common.network.s2c.DemonologyStatsPacket;
 
 public class DemonologyProperty implements IExtendedEntityProperties {
 

@@ -20,12 +20,14 @@ public class EntityAIJumpAndScream extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getRNG().nextFloat() < this.chancePerTickInPercent;
+        return this.entity.getRNG()
+            .nextFloat() < this.chancePerTickInPercent;
     }
 
     @Override
     public void startExecuting() {
-        durationTicks = 200 + this.entity.getRNG().nextInt(500);
+        durationTicks = 200 + this.entity.getRNG()
+            .nextInt(500);
         jumpAndScream();
     }
 
@@ -47,7 +49,8 @@ public class EntityAIJumpAndScream extends EntityAIBase {
     }
 
     private void jumpAndScream() {
-        this.entity.getJumpHelper().setJumping();
+        this.entity.getJumpHelper()
+            .setJumping();
         this.entity.playSound(screamSound, 1.0F, 1.0F);
     }
 }

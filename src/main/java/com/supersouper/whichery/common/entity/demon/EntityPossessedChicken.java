@@ -1,7 +1,10 @@
 package com.supersouper.whichery.common.entity.demon;
 
-import com.google.common.collect.ImmutableMap;
-import com.supersouper.whichery.common.entity.ai.*;
+import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+import static java.util.Collections.emptyMap;
+
+import java.util.Map;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;
@@ -12,10 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import java.util.Map;
-
-import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
-import static java.util.Collections.emptyMap;
+import com.google.common.collect.ImmutableMap;
+import com.supersouper.whichery.common.entity.ai.*;
 
 public class EntityPossessedChicken extends EntityChicken implements IPossessedEntity {
 
@@ -26,40 +27,53 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
 
     private final EntityAIProfile MIMIC_NORMAL_CHICKEN_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
-            new EntityAIPanic(this, 1.4D), 1,
-            new EntityAIMate(this, 1.0D), 2,
-            new EntityAITempt(this, 1.0D, Items.wheat_seeds, false), 3,
-            new EntityAIFollowParent(this, 1.1D), 4
-        ),
-        emptyMap()
-    );
+            new EntityAIPanic(this, 1.4D),
+            1,
+            new EntityAIMate(this, 1.0D),
+            2,
+            new EntityAITempt(this, 1.0D, Items.wheat_seeds, false),
+            3,
+            new EntityAIFollowParent(this, 1.1D),
+            4),
+        emptyMap());
 
     private final EntityAIProfile BERSERK_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
-            new EntityAIAttackOnCollide(this, EntityChicken.class, 1.0D, false), 3,
-            new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false), 4,
-            new EntityAIMoveTowardsTarget(this, 1.8, 16), 5
-        ),
+            new EntityAIAttackOnCollide(this, EntityChicken.class, 1.0D, false),
+            3,
+            new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false),
+            4,
+            new EntityAIMoveTowardsTarget(this, 1.8, 16),
+            5),
         ImmutableMap.of(
-            new EntityAINearestAttackableTarget(this, EntityChicken.class, 10, false, false, entity -> entity instanceof EntityChicken && !(entity instanceof EntityPossessedChicken)), 4,
-            new EntityAINearestAttackableTarget(this, EntityPlayer.class, 5, false), 5
-        )
-    );
+            new EntityAINearestAttackableTarget(
+                this,
+                EntityChicken.class,
+                10,
+                false,
+                false,
+                entity -> entity instanceof EntityChicken && !(entity instanceof EntityPossessedChicken)),
+            4,
+            new EntityAINearestAttackableTarget(this, EntityPlayer.class, 5, false),
+            5));
 
     private final EntityAIProfile WEIRD_AI_PROFILE = new EntityAIProfile(
         ImmutableMap.of(
-            new EntityAICreepyStare(this, EntityPlayer.class, 16, 0.5f, minutesToTicks(2), true), 4,
-            new EntityAIStareWeird(this, 0.5f, minutesToTicks(4)), 5,
-            new EntityAIJumpAndScream(this, 1f, getHurtSound()), 6
-        ),
-        emptyMap()
-    );
+            new EntityAICreepyStare(this, EntityPlayer.class, 16, 0.5f, minutesToTicks(2), true),
+            4,
+            new EntityAIStareWeird(this, 0.5f, minutesToTicks(4)),
+            5,
+            new EntityAIJumpAndScream(this, 1f, getHurtSound()),
+            6),
+        emptyMap());
 
     private final Map<EnumPossessedAnimalBehavior, EntityAIProfile> AI_PROFILES_BY_BEHAVIOR = ImmutableMap.of(
-        EnumPossessedAnimalBehavior.MIMIC_NORMAL, MIMIC_NORMAL_CHICKEN_AI_PROFILE,
-        EnumPossessedAnimalBehavior.BERSERK, BERSERK_AI_PROFILE,
-        EnumPossessedAnimalBehavior.WEIRD, WEIRD_AI_PROFILE
-    );
+        EnumPossessedAnimalBehavior.MIMIC_NORMAL,
+        MIMIC_NORMAL_CHICKEN_AI_PROFILE,
+        EnumPossessedAnimalBehavior.BERSERK,
+        BERSERK_AI_PROFILE,
+        EnumPossessedAnimalBehavior.WEIRD,
+        WEIRD_AI_PROFILE);
 
     private EnumPossessedAnimalBehavior possessedAnimalBehavior = EnumPossessedAnimalBehavior.MIMIC_NORMAL;
     private int possessedAnimalBehaviorDurationTicks = minutesToTicks(60);
@@ -100,8 +114,10 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
     public void readEntityFromNBT(NBTTagCompound tagCompound) {
         super.readEntityFromNBT(tagCompound);
 
-        EnumPossessedAnimalBehavior deserializedBehavior = EnumPossessedAnimalBehavior.deserializeFromNbt(tagCompound.getString(POSSESSED_ANIMAL_BEHAVIOR_NBT_KEY));
-        int possessedAnimalBehaviorDurationTicks = tagCompound.getInteger(POSSESSED_ANIMAL_BEHAVIOR_DURATION_TICKS_NBT_KEY);
+        EnumPossessedAnimalBehavior deserializedBehavior = EnumPossessedAnimalBehavior
+            .deserializeFromNbt(tagCompound.getString(POSSESSED_ANIMAL_BEHAVIOR_NBT_KEY));
+        int possessedAnimalBehaviorDurationTicks = tagCompound
+            .getInteger(POSSESSED_ANIMAL_BEHAVIOR_DURATION_TICKS_NBT_KEY);
 
         setPossessedAnimalBehavior(deserializedBehavior, possessedAnimalBehaviorDurationTicks);
     }
@@ -174,13 +190,8 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedE
 
     public static EntityPossessedChicken createPossessedChicken(EntityChicken chicken) {
         EntityPossessedChicken possessedChicken = new EntityPossessedChicken(chicken.worldObj);
-        possessedChicken.setLocationAndAngles(
-            chicken.posX,
-            chicken.posY,
-            chicken.posZ,
-            chicken.rotationYaw,
-            chicken.rotationPitch
-        );
+        possessedChicken
+            .setLocationAndAngles(chicken.posX, chicken.posY, chicken.posZ, chicken.rotationYaw, chicken.rotationPitch);
 
         possessedChicken.setHealth(chicken.getHealth());
         possessedChicken.setGrowingAge(chicken.getGrowingAge());

@@ -1,8 +1,5 @@
 package com.supersouper.whichery.client.render.entity;
 
-import com.supersouper.whichery.Whichery;
-import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -10,11 +7,18 @@ import net.minecraft.client.renderer.entity.RenderChicken;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import org.lwjgl.opengl.GL11;
+
+import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class RenderPossessedChicken extends RenderChicken {
 
-    private static final ResourceLocation possessedChickenTextures = new ResourceLocation(Whichery.MODID, "textures/models/entity/possessed_chicken.png");
+    private static final ResourceLocation possessedChickenTextures = new ResourceLocation(
+        Whichery.MODID,
+        "textures/models/entity/possessed_chicken.png");
 
     public RenderPossessedChicken() {
         super(new ModelChicken(), 0.3f);
@@ -28,7 +32,8 @@ public class RenderPossessedChicken extends RenderChicken {
         boolean isNight = (celestialAngle > 0.25F && celestialAngle < 0.75F);
 
         boolean isNightAndLightningBoltDitHitRecently = isNight && world.lastLightningBolt > 0;
-        boolean canPlayerSeeDemons = playerDemonologyProperties != null && playerDemonologyProperties.isCanSeeDemonsPossessingHosts();
+        boolean canPlayerSeeDemons = playerDemonologyProperties != null
+            && playerDemonologyProperties.isCanSeeDemonsPossessingHosts();
 
         return isNightAndLightningBoltDitHitRecently || canPlayerSeeDemons;
     }
@@ -59,8 +64,10 @@ public class RenderPossessedChicken extends RenderChicken {
     }
 
     /*
-     * Make the eyes glow; don't use a fixed brightness as that does not look good in all circumstances (moody vs full-bright, fog, thunder, rain, daylight),
-     * as the default chicken texture is white, and the eye is only one pixel, which limits our abilities to add contrast.
+     * Make the eyes glow; don't use a fixed brightness as that does not look good in all circumstances (moody vs
+     * full-bright, fog, thunder, rain, daylight),
+     * as the default chicken texture is white, and the eye is only one pixel, which limits our abilities to add
+     * contrast.
      */
     private void adjustBrightnessToSurroundings(EntityPossessedChicken chicken, float partialTicks) {
         int currentMobBrightness = chicken.getBrightnessForRender(partialTicks);

@@ -21,13 +21,13 @@ public class EntityAIStareWeird extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getRNG().nextFloat() < this.chancePerTickInPercent;
+        return this.entity.getRNG()
+            .nextFloat() < this.chancePerTickInPercent;
     }
 
     @Override
     public boolean continueExecuting() {
-        return this.entity.isEntityAlive()
-            && this.durationTicks > 0;
+        return this.entity.isEntityAlive() && this.durationTicks > 0;
     }
 
     @Override
@@ -38,14 +38,20 @@ public class EntityAIStareWeird extends EntityAIBase {
     @Override
     public void startExecuting() {
         int halfLookTimeTicks = this.maxDurationTicks / 2;
-        this.durationTicks = halfLookTimeTicks + this.entity.getRNG().nextInt(halfLookTimeTicks);
-        this.yOffset = this.entity.getRNG().nextBoolean() ? 1 : 0; // Either stare up or down
+        this.durationTicks = halfLookTimeTicks + this.entity.getRNG()
+            .nextInt(halfLookTimeTicks);
+        this.yOffset = this.entity.getRNG()
+            .nextBoolean() ? 1 : 0; // Either stare up or down
     }
 
     @Override
     public void updateTask() {
-        this.entity.getLookHelper().setLookPosition(
-            this.entity.posX, this.entity.posY + this.yOffset, this.entity.posZ, 10.0F, this.entity.getVerticalFaceSpeed()
-        );
+        this.entity.getLookHelper()
+            .setLookPosition(
+                this.entity.posX,
+                this.entity.posY + this.yOffset,
+                this.entity.posZ,
+                10.0F,
+                this.entity.getVerticalFaceSpeed());
     }
 }

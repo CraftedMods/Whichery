@@ -1,19 +1,21 @@
 package com.supersouper.whichery.common.compat.waila;
 
-import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import static java.util.Collections.emptyList;
+
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
-import static java.util.Collections.emptyList;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.api.IWailaEntityProvider;
 
 public class PossessedCreatureEntityProvider implements IWailaEntityProvider {
 
@@ -25,7 +27,8 @@ public class PossessedCreatureEntityProvider implements IWailaEntityProvider {
             EntityPlayer player = accessor.getPlayer();
             DemonologyProperty demonologyProperty = DemonologyProperty.get(player);
 
-            if(!player.capabilities.isCreativeMode && (demonologyProperty == null || !demonologyProperty.isCanSeeDemonsPossessingHosts())) {
+            if (!player.capabilities.isCreativeMode
+                && (demonologyProperty == null || !demonologyProperty.isCanSeeDemonsPossessingHosts())) {
                 return possessedEntity.createUnpossessedDummyHostEntity();
             }
         }
@@ -34,17 +37,20 @@ public class PossessedCreatureEntityProvider implements IWailaEntityProvider {
     }
 
     @Override
-    public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
+        IWailaConfigHandler config) {
         return emptyList();
     }
 
     @Override
-    public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
+        IWailaConfigHandler config) {
         return emptyList();
     }
 
     @Override
-    public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+    public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
+        IWailaConfigHandler config) {
         return emptyList();
     }
 

@@ -20,11 +20,8 @@ public class CommonProxy {
         ModEntities.init();
         FamilyRegistry.initIngredients();
 
-        FMLInterModComms.sendMessage(
-            "Waila",
-            "register",
-            "com.supersouper.whichery.common.compat.waila.WailaCompat.load"
-        );
+        FMLInterModComms
+            .sendMessage("Waila", "register", "com.supersouper.whichery.common.compat.waila.WailaCompat.load");
     }
 
     public void postInit(FMLPostInitializationEvent event) {}

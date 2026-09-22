@@ -1,15 +1,16 @@
 package com.supersouper.whichery.common.entity.ai;
 
+import java.util.Map;
+import java.util.Objects;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAITasks;
 
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * AI profiles are groups of tasks that are added/removed together. For example, an entity could have two entirely and
- * mutually exclusive behavior modes, which each contain multiple AI tasks. Instead of implementing this behavior via mutex bits
+ * mutually exclusive behavior modes, which each contain multiple AI tasks. Instead of implementing this behavior via
+ * mutex bits
  * and the manual addition/removal of tasks, the idea of profiles greatly simplifies the handling.
  */
 public class EntityAIProfileManager {
@@ -40,9 +41,7 @@ public class EntityAIProfileManager {
     }
 
     private void applyTaskList(EntityAITasks entityTasks, Map<EntityAIBase, Integer> taskList) {
-        taskList.forEach((task, priority) -> {
-            entityTasks.addTask(priority, task);
-        });
+        taskList.forEach((task, priority) -> { entityTasks.addTask(priority, task); });
     }
 
     private void removeProfile(EntityAIProfile profile) {
@@ -51,9 +50,7 @@ public class EntityAIProfileManager {
     }
 
     private void removeTaskList(EntityAITasks entityTasks, Map<EntityAIBase, Integer> taskList) {
-        taskList.forEach((task, priority) -> {
-            entityTasks.removeTask(task);
-        });
+        taskList.forEach((task, priority) -> { entityTasks.removeTask(task); });
     }
 
 }

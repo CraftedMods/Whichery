@@ -1,10 +1,11 @@
 package com.supersouper.whichery.common.items;
 
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class ItemAppleThatMakesYouSeeDemons extends ItemFood {
 

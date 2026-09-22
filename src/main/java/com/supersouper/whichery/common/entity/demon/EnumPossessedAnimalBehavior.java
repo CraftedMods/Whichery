@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 public enum EnumPossessedAnimalBehavior {
 
-    BERSERK("berserk"), MIMIC_NORMAL("mimic_normal"), WEIRD("weird");
+    BERSERK("berserk"),
+    MIMIC_NORMAL("mimic_normal"),
+    WEIRD("weird");
 
     private final String nbtName;
 
@@ -17,8 +19,7 @@ public enum EnumPossessedAnimalBehavior {
     static {
         VALUES_BY_NBT_NAME = Collections.unmodifiableMap(
             Arrays.stream(values())
-                .collect(Collectors.toMap(EnumPossessedAnimalBehavior::getNbtName, Function.identity()))
-        );
+                .collect(Collectors.toMap(EnumPossessedAnimalBehavior::getNbtName, Function.identity())));
     }
 
     EnumPossessedAnimalBehavior(String nbtName) {
