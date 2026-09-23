@@ -1,33 +1,38 @@
 package com.supersouper.whichery.client.render.entity;
 
+import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderChicken;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import com.supersouper.whichery.Whichery;
-import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class RenderPossessedChicken extends RenderChicken {
 
-    private static final ResourceLocation possessedChickenTextures = new ResourceLocation(
+    private static final ResourceLocation possessedChickenTextureEyes = new ResourceLocation(
         Whichery.MODID,
-        "textures/models/entity/possessed_chicken.png");
+        "textures/models/entity/possessed_chicken_eyes.png");
 
     public RenderPossessedChicken() {
         super(new ModelChicken(), 0.3f);
-        this.setRenderPassModel(new ModelChicken());
+        this.setRenderPassModel(this.mainModel);
     }
 
     protected boolean shouldRenderYellowEyes(EntityPossessedChicken entity, float partialTicks) {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+        if (player == null) {
+            return false;
+        }
+
         World world = entity.worldObj;
-        DemonologyProperty playerDemonologyProperties = DemonologyProperty.get(Minecraft.getMinecraft().thePlayer);
+        DemonologyProperty playerDemonologyProperties = DemonologyProperty.get(player);
         float celestialAngle = world.getCelestialAngle(partialTicks);
         boolean isNight = (celestialAngle > 0.25F && celestialAngle < 0.75F);
 
@@ -42,25 +47,39 @@ public class RenderPossessedChicken extends RenderChicken {
     protected int shouldRenderPass(EntityLivingBase entity, int pass, float partialTicks) {
         EntityPossessedChicken chicken = (EntityPossessedChicken) entity;
 
+        if (pass == 1) {
+            GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+            GL11.glPolygonOffset(0, 0);
+        }
+
         if (pass != 0 || !shouldRenderYellowEyes(chicken, partialTicks)) {
             return -1;
         } else {
-            this.bindTexture(possessedChickenTextures);
+            this.bindTexture(possessedChickenTextureEyes);
+
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 
             GL11.glDepthMask(!entity.isInvisible());
 
-            adjustBrightnessToSurroundings(chicken, partialTicks);
+            // prevent z-fighting
+            GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+            GL11.glPolygonOffset(-3, -3);
 
-            // Scale the eye layer a bit so we don't have z-fighting
-            float scale = 1.003F; // todo is scale necessary or only translate?
-            GL11.glScalef(scale, scale, scale);
-            GL11.glTranslatef(0.0F, -0.002F, 0.0F);
+            adjustBrightnessToSurroundings(chicken, partialTicks);
 
             return 1;
         }
+    }
+
+    @Override
+    protected int inheritRenderPass(EntityLivingBase p_77035_1_, int p_77035_2_, float p_77035_3_) {
+        /*
+         * The super implementation calls shouldRenderPass() again, but we need no logic here for render passes.
+         * Otherwise, the hurt animation for this layer (which we don't need anyway) would use the same brightness calculation as the eyes,
+         * and thus render the chicken with higher brightness when hurt/dying.
+         */
+        return -1;
     }
 
     /*
@@ -83,5 +102,6 @@ public class RenderPossessedChicken extends RenderChicken {
         if (skyLight < 195) skyLight = 195;
 
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) blockLight, (float) skyLight);
+        GL11.glColor4f(1, 1, 1, 1);
     }
 }
