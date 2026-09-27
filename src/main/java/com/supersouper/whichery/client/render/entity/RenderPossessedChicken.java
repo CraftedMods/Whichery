@@ -104,4 +104,6 @@ public class RenderPossessedChicken extends RenderChicken {
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) blockLight, (float) skyLight);
         GL11.glColor4f(1, 1, 1, 1);
     }
+
+    // todo lightning revealing more if player can see demons
 }
