@@ -29,6 +29,8 @@ tooltip.family.spirit=§bSpirit§r %s
 tooltip.family.hell=§6Hell§r %s
 tooltip.family.potency=(Potency: %s)
 
+tooltip.item.apple_that_makes_you_see_demons=Debug item. Eat to be toggle the ability to see the true nature of demons.
+
 ### Entities
 entity.whichery.MandrakeRoot.name=Mandrake Root
 entity.whichery.PossessedChicken.name=Possessed Chicken

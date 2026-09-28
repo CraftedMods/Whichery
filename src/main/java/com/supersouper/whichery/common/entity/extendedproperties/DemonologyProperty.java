@@ -15,7 +15,7 @@ public class DemonologyProperty implements IExtendedEntityProperties {
 
     public static final String KEY = Whichery.MODID + "DemonologyProperty";
 
-    private boolean canSeeDemonsPossessingHosts; // todo defauult value
+    private boolean canSeeDemonsPossessingHosts;
 
     public boolean isCanSeeDemonsPossessingHosts() {
         return canSeeDemonsPossessingHosts;

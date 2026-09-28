@@ -11,6 +11,8 @@ import com.supersouper.whichery.common.entity.extendedproperties.DemonologyPrope
 
 public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossessedEntity> extends EntityAIBase {
 
+    public static final int MAX_STARE_DISTANCE = 16;
+
     private final T entity;
     private EntityPlayer awarePlayer;
 
@@ -22,7 +24,8 @@ public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossesse
     @Override
     public boolean shouldExecute() {
         if (this.entity.ticksExisted % 20 == 0) {
-            AxisAlignedBB scanArea = this.entity.boundingBox.expand(16, 16, 16);
+            AxisAlignedBB scanArea = this.entity.boundingBox
+                .expand(MAX_STARE_DISTANCE, MAX_STARE_DISTANCE, MAX_STARE_DISTANCE);
 
             for (EntityPlayer player : this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, scanArea)) {
                 DemonologyProperty property = DemonologyProperty.get(player);
@@ -59,7 +62,7 @@ public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossesse
         if (awarePlayer.isEntityAlive()) {
             DemonologyProperty property = DemonologyProperty.get(awarePlayer);
             if (property != null && property.isCanSeeDemonsPossessingHosts()) {
-                return this.entity.getDistanceSqToEntity(this.awarePlayer) <= 16 * 16;
+                return this.entity.getDistanceSqToEntity(this.awarePlayer) <= MAX_STARE_DISTANCE * MAX_STARE_DISTANCE;
             }
         }
 

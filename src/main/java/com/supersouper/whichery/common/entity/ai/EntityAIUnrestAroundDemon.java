@@ -12,7 +12,12 @@ import net.minecraft.entity.ai.EntityAIBase;
 import com.google.common.collect.ImmutableList;
 import com.supersouper.whichery.common.entity.demon.IDemon;
 
+/*
+ * This is a "composite" AI task that delegates to other tasks.
+ */
 public class EntityAIUnrestAroundDemon extends EntityAIBase {
+
+    public static final int DEMON_SCAN_DISTANCE = 12;
 
     private final EntityCreature entity;
     private final Random rand;
@@ -32,12 +37,16 @@ public class EntityAIUnrestAroundDemon extends EntityAIBase {
 
         allTasks = ImmutableList.of(weirdStareTask, jumpAndScreamTask, panicTask, headMovementTask);
 
-        setMutexBits(0b11);
+        // Only execute this task if any contained task could execute (as a random one is chosen)
+        setMutexBits(
+            allTasks.stream()
+                .mapToInt(EntityAIBase::getMutexBits)
+                .reduce(0, (mutex1, mutex2) -> mutex1 | mutex2));
     }
 
     @Override
     public boolean shouldExecute() {
-        if (this.rand.nextInt(minutesToTicks(5)) == 0 && isDemonNearby()) {
+        if (this.rand.nextInt(minutesToTicks(4)) == 0 && isDemonNearby()) {
             currentTask = allTasks.get(rand.nextInt(allTasks.size()));
 
             return currentTask.shouldExecute();
@@ -78,7 +87,11 @@ public class EntityAIUnrestAroundDemon extends EntityAIBase {
     }
 
     private boolean isDemonNearby() {
-        return !entity.worldObj.selectEntitiesWithinAABB(IDemon.class, this.entity.boundingBox.expand(10, 10, 10), null)
+        return !entity.worldObj
+            .selectEntitiesWithinAABB(
+                IDemon.class,
+                this.entity.boundingBox.expand(DEMON_SCAN_DISTANCE, DEMON_SCAN_DISTANCE, DEMON_SCAN_DISTANCE),
+                null)
             .isEmpty();
     }
 }

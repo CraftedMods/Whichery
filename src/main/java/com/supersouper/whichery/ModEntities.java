@@ -11,7 +11,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 public enum ModEntities {
 
     MANDRAKE_ROOT(EntityMandrakeRoot.class, "MandrakeRoot", 0x724b2c, 0x0a4b2c),
-    POSSESSED_CHICKEN(EntityPossessedChicken.class, "PossessedChicken", 10592673, 16711680);
+    POSSESSED_CHICKEN(EntityPossessedChicken.class, "PossessedChicken", 0x606060, 0xff0000);
 
     private final Class<? extends Entity> entityClass;
     private final String name;

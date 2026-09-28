@@ -50,7 +50,7 @@ public abstract class EntityAICrazyBase extends EntityAIBase {
 
     protected void screamIfPossible() {
         if (isScreaming) {
-            this.entity.playSound(((EntityLivingBaseAccessor) this.entity).getHurtSoundMixin(), 1.0F, 1.0F);
+            this.entity.playSound(((EntityLivingBaseAccessor) this.entity).getHurtSoundMixin(), 1, 1);
         }
     }
 

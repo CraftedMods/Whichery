@@ -19,8 +19,7 @@ public class EntityAICrazyHeadMovement extends EntityAICrazyBase {
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getRNG()
-            .nextFloat() < this.chancePerTickInPercent;
+        return this.rand.nextFloat() < this.chancePerTickInPercent;
     }
 
     @Override
@@ -51,6 +50,6 @@ public class EntityAICrazyHeadMovement extends EntityAICrazyBase {
 
     @Override
     protected int getRandomDurationTicks() {
-        return minutesToTicks(0.5) + this.rand.nextInt(minutesToTicks(0.75));
+        return minutesToTicks(0.5) + this.rand.nextInt(minutesToTicks(1));
     }
 }

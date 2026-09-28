@@ -18,8 +18,7 @@ public class EntityAICrazyStare extends EntityAICrazyBase {
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getRNG()
-            .nextFloat() < this.chancePerTickInPercent;
+        return this.rand.nextFloat() < this.chancePerTickInPercent;
     }
 
     @Override

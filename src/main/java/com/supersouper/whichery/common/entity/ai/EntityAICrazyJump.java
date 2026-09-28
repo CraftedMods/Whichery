@@ -1,5 +1,7 @@
 package com.supersouper.whichery.common.entity.ai;
 
+import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+
 import net.minecraft.entity.EntityCreature;
 
 public class EntityAICrazyJump extends EntityAICrazyBase {
@@ -15,8 +17,7 @@ public class EntityAICrazyJump extends EntityAICrazyBase {
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getRNG()
-            .nextFloat() < this.chancePerTickInPercent;
+        return this.rand.nextFloat() < this.chancePerTickInPercent;
     }
 
     @Override
@@ -36,8 +37,7 @@ public class EntityAICrazyJump extends EntityAICrazyBase {
 
     @Override
     protected int getRandomDurationTicks() {
-        return 200 + this.entity.getRNG()
-            .nextInt(500);
+        return minutesToTicks(0.5) + this.rand.nextInt(minutesToTicks(0.75));
     }
 
     private void jumpAndScream() {
