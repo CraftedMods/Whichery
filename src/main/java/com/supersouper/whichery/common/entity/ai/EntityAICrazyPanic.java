@@ -49,7 +49,7 @@ public class EntityAICrazyPanic extends EntityAICrazyBase {
         if (super.continueExecuting()) {
             if (!this.entity.getNavigator().noPath()) {
                 return true;
-            } else if (durationTicks > 0 && tryToFindRandomPosition()) {
+            } else if (tryToFindRandomPosition()) {
                 this.entity.getNavigator().tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
                 return true;
             }

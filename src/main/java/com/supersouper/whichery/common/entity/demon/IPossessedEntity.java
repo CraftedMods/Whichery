@@ -1,7 +1,6 @@
 package com.supersouper.whichery.common.entity.demon;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 
 public interface IPossessedEntity extends IDemon {
 
@@ -11,5 +10,9 @@ public interface IPossessedEntity extends IDemon {
      * that the player deals with a possessed entity.
      */
     EntityLiving createUnpossessedDummyHostEntity();
+
+    void setStaringAtAwarePlayer(boolean value);
+
+    boolean isStaringAtAwarePlayer();
 
 }

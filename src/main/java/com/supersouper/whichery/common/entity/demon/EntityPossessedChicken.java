@@ -1,7 +1,7 @@
 package com.supersouper.whichery.common.entity.demon;
 
 import com.supersouper.whichery.common.entity.ai.EntityAICancelAttackWhenPlayerWatches;
-import com.supersouper.whichery.common.entity.ai.EntityAIStareAtDiscoveringPlayer;
+import com.supersouper.whichery.common.entity.ai.EntityAIStareBackAtAwarePlayer;
 import com.supersouper.whichery.common.util.EntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -16,6 +16,8 @@ import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
 
 public class EntityPossessedChicken extends EntityChicken implements IPossessedAnimal {
 
+    private static final int STARING_AT_AWARE_PLAYER_DATA_WATCHER_KEY = 15;
+
     public EntityPossessedChicken(World world) {
         super(world);
 
@@ -28,7 +30,7 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedA
 
         this.tasks.addTask(0, new EntityAISwimming(this));
 
-        this.tasks.addTask(1, new EntityAIStareAtDiscoveringPlayer<>(this));
+        this.tasks.addTask(1, new EntityAIStareBackAtAwarePlayer<>(this));
 
         // Sneaky attack behavior
         this.tasks.addTask(2, new EntityAICancelAttackWhenPlayerWatches(this));
@@ -60,8 +62,24 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedA
     }
 
     @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataWatcher.addObject(STARING_AT_AWARE_PLAYER_DATA_WATCHER_KEY, 0);
+    }
+
+    @Override
+    public void setStaringAtAwarePlayer(boolean value) {
+        this.dataWatcher.updateObject(STARING_AT_AWARE_PLAYER_DATA_WATCHER_KEY, value ? 1 : 0);
+    }
+
+    @Override
+    public boolean isStaringAtAwarePlayer() {
+        return this.dataWatcher.getWatchableObjectInt(STARING_AT_AWARE_PLAYER_DATA_WATCHER_KEY) == 1;
+    }
+
+    @Override
     public boolean attackEntityAsMob(Entity entityToAttack) {
-        return entityToAttack.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+        return entityToAttack.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
     }
 
     @Override
@@ -82,5 +100,14 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedA
         possessedChicken.setGrowingAge(chicken.getGrowingAge());
 
         return possessedChicken;
+    }
+
+    /*
+     * Make sure that the silhouette is rendered in render pass 1, otherwise there are visual problems if the silhouette
+     * is rendered before water.
+     */
+    @Override
+    public boolean shouldRenderInPass(int pass) {
+        return pass == 0 || pass == 1;
     }
 }

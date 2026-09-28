@@ -8,12 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-public class EntityAIStareAtDiscoveringPlayer<T extends EntityCreature & IPossessedEntity> extends EntityAIBase {
+public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossessedEntity> extends EntityAIBase {
 
     private final T entity;
-    private EntityPlayer discoveringPlayer;
+    private EntityPlayer awarePlayer;
 
-    public EntityAIStareAtDiscoveringPlayer(T entity) {
+    public EntityAIStareBackAtAwarePlayer(T entity) {
         this.entity = entity;
         this.setMutexBits(0b11);
     }
@@ -27,7 +27,7 @@ public class EntityAIStareAtDiscoveringPlayer<T extends EntityCreature & IPosses
             for (EntityPlayer player : this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, scanArea)) {
                 DemonologyProperty property = DemonologyProperty.get(player);
                 if (property != null && property.isCanSeeDemonsPossessingHosts() && isPlayerLookingAtEntity(player)) {
-                    discoveringPlayer = player;
+                    awarePlayer = player;
                     return true;
                 }
             }
@@ -50,11 +50,16 @@ public class EntityAIStareAtDiscoveringPlayer<T extends EntityCreature & IPosses
     }
 
     @Override
+    public void startExecuting() {
+        entity.setStaringAtAwarePlayer(true);
+    }
+
+    @Override
     public boolean continueExecuting() {
-        if (discoveringPlayer.isEntityAlive()) {
-            DemonologyProperty property = DemonologyProperty.get(discoveringPlayer);
+        if (awarePlayer.isEntityAlive()) {
+            DemonologyProperty property = DemonologyProperty.get(awarePlayer);
             if (property != null && property.isCanSeeDemonsPossessingHosts()) {
-                return this.entity.getDistanceSqToEntity(this.discoveringPlayer) <= 16 * 16;
+                return this.entity.getDistanceSqToEntity(this.awarePlayer) <= 16 * 16;
             }
         }
 
@@ -63,16 +68,17 @@ public class EntityAIStareAtDiscoveringPlayer<T extends EntityCreature & IPosses
 
     @Override
     public void resetTask() {
-        this.discoveringPlayer = null;
+        this.awarePlayer = null;
+        this.entity.setStaringAtAwarePlayer(false);
     }
 
     @Override
     public void updateTask() {
         this.entity.getLookHelper()
             .setLookPosition(
-                this.discoveringPlayer.posX,
-                this.discoveringPlayer.posY + this.discoveringPlayer.getEyeHeight(),
-                this.discoveringPlayer.posZ,
+                this.awarePlayer.posX,
+                this.awarePlayer.posY + this.awarePlayer.getEyeHeight(),
+                this.awarePlayer.posZ,
                 10.0F,
                 this.entity.getVerticalFaceSpeed());
     }
