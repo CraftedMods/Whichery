@@ -1,8 +1,5 @@
 package com.supersouper.whichery.client.render.entity;
 
-import com.supersouper.whichery.Whichery;
-import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,7 +12,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+
 import org.lwjgl.opengl.GL11;
+
+import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class RenderPossessedChicken extends RenderChicken {
 
@@ -23,8 +25,9 @@ public class RenderPossessedChicken extends RenderChicken {
         Whichery.MODID,
         "textures/models/entity/demon/possessed_chicken_eyes.png");
 
-    private static final ResourceLocation DEMON_SHADOW_TEXTURE =
-        new ResourceLocation(Whichery.MODID, "textures/models/entity/demon/demon_tier0_silhouette.png");
+    private static final ResourceLocation DEMON_SHADOW_TEXTURE = new ResourceLocation(
+        Whichery.MODID,
+        "textures/models/entity/demon/demon_tier0_silhouette.png");
 
     public RenderPossessedChicken() {
         super(new ModelChicken(), 0.3f);
@@ -36,7 +39,8 @@ public class RenderPossessedChicken extends RenderChicken {
     }
 
     private boolean shouldRenderShadowSilhouette(EntityPossessedChicken entity, float partialTicks) {
-        return canPlayerSeeDemons() && entity.isStaringAtAwarePlayer() && isNightAndDidLightningBoltHitRecently(entity, partialTicks);
+        return canPlayerSeeDemons() && entity.isStaringAtAwarePlayer()
+            && isNightAndDidLightningBoltHitRecently(entity, partialTicks);
     }
 
     private boolean isNightAndDidLightningBoltHitRecently(EntityPossessedChicken entity, float partialTicks) {
@@ -57,8 +61,7 @@ public class RenderPossessedChicken extends RenderChicken {
 
         DemonologyProperty playerDemonologyProperties = DemonologyProperty.get(player);
 
-        return playerDemonologyProperties != null
-            && playerDemonologyProperties.isCanSeeDemonsPossessingHosts();
+        return playerDemonologyProperties != null && playerDemonologyProperties.isCanSeeDemonsPossessingHosts();
     }
 
     @Override
@@ -94,7 +97,8 @@ public class RenderPossessedChicken extends RenderChicken {
     protected int inheritRenderPass(EntityLivingBase entity, int pass, float partialTicks) {
         /*
          * The super implementation calls shouldRenderPass() again, but we need no logic here for render passes.
-         * Otherwise, the hurt animation for this layer (which we don't need anyway) would use the same brightness calculation as the eyes,
+         * Otherwise, the hurt animation for this layer (which we don't need anyway) would use the same brightness
+         * calculation as the eyes,
          * and thus render the chicken with higher brightness when hurt/dying.
          */
         return -1;
@@ -123,13 +127,12 @@ public class RenderPossessedChicken extends RenderChicken {
     }
 
     @Override
-    public void doRender(EntityChicken entity,
-                         double x, double y, double z,
-                         float yaw, float partialTicks) {
+    public void doRender(EntityChicken entity, double x, double y, double z, float yaw, float partialTicks) {
 
         /*
          * Render the shadow silhouette in global pass 1, so it displays correctly with e.g. water behind it.
-         * This is not the same as the render passes in shouldRenderPass(...) etc. - those are called in a loop in this renderer.
+         * This is not the same as the render passes in shouldRenderPass(...) etc. - those are called in a loop in this
+         * renderer.
          */
         int renderPass = MinecraftForgeClient.getRenderPass();
 
@@ -149,7 +152,9 @@ public class RenderPossessedChicken extends RenderChicken {
             return;
         }
 
-        Vec3 playerToChickenVec = Vec3.createVectorHelper(chicken.posX - player.posX, chicken.posY - player.posY, chicken.posZ - player.posZ).normalize();
+        Vec3 playerToChickenVec = Vec3
+            .createVectorHelper(chicken.posX - player.posX, chicken.posY - player.posY, chicken.posZ - player.posZ)
+            .normalize();
 
         float renderYaw = this.renderManager.playerViewY;
         float renderPitch = this.renderManager.playerViewX;
@@ -167,8 +172,12 @@ public class RenderPossessedChicken extends RenderChicken {
 
         GL11.glPushMatrix();
 
-        // We move and rotate the shadow such that it always faces the player ("billboarding") and is a bit behind the chicken
-        GL11.glTranslated(x + playerToChickenVec.xCoord / 2, y + playerToChickenVec.yCoord / 2, z + playerToChickenVec.zCoord / 2);
+        // We move and rotate the shadow such that it always faces the player ("billboarding") and is a bit behind the
+        // chicken
+        GL11.glTranslated(
+            x + playerToChickenVec.xCoord / 2,
+            y + playerToChickenVec.yCoord / 2,
+            z + playerToChickenVec.zCoord / 2);
         GL11.glRotatef(180 - renderYaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-clampedPitch, 1.0F, 0.0F, 0.0F);
         GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);

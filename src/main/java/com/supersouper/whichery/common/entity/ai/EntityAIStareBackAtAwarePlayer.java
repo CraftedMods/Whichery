@@ -1,12 +1,13 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+
+import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossessedEntity> extends EntityAIBase {
 
@@ -21,8 +22,7 @@ public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossesse
     @Override
     public boolean shouldExecute() {
         if (this.entity.ticksExisted % 20 == 0) {
-            AxisAlignedBB scanArea = this.entity.boundingBox
-                .expand(16, 16, 16);
+            AxisAlignedBB scanArea = this.entity.boundingBox.expand(16, 16, 16);
 
             for (EntityPlayer player : this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, scanArea)) {
                 DemonologyProperty property = DemonologyProperty.get(player);
@@ -37,12 +37,12 @@ public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossesse
     }
 
     private boolean isPlayerLookingAtEntity(EntityPlayer player) {
-        Vec3 playerLookVec = player.getLookVec().normalize();
+        Vec3 playerLookVec = player.getLookVec()
+            .normalize();
         Vec3 playerToTargetVec = Vec3.createVectorHelper(
             this.entity.posX - player.posX,
             this.entity.posY + this.entity.height / 2.0 - (player.posY + player.getEyeHeight()),
-            this.entity.posZ - player.posZ
-        );
+            this.entity.posZ - player.posZ);
         double playerToTargetDistance = playerToTargetVec.lengthVector();
         playerToTargetVec = playerToTargetVec.normalize();
         double d1 = playerLookVec.dotProduct(playerToTargetVec);

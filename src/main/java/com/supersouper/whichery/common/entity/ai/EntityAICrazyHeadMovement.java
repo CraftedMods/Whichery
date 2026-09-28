@@ -1,8 +1,8 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import net.minecraft.entity.EntityCreature;
-
 import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+
+import net.minecraft.entity.EntityCreature;
 
 public class EntityAICrazyHeadMovement extends EntityAICrazyBase {
 
@@ -27,8 +27,7 @@ public class EntityAICrazyHeadMovement extends EntityAICrazyBase {
     public void startExecuting() {
         super.startExecuting();
 
-        this.yOffset = this.rand
-            .nextBoolean() ? 1 : 0;
+        this.yOffset = this.rand.nextBoolean() ? 1 : 0;
         this.nodIntervalTicks = 10 + rand.nextInt(15);
     }
 

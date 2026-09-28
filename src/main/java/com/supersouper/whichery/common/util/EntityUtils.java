@@ -27,25 +27,16 @@ public class EntityUtils {
     }
 
     public static boolean isPlayerLookingAwayFromEntity(EntityPlayer player, Entity entity) {
-        Vec3 playerEyePos = Vec3.createVectorHelper(
-            player.posX,
-            player.posY + player.getEyeHeight(),
-            player.posZ
-        );
+        Vec3 playerEyePos = Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 
         Vec3 playerLookVec = player.getLook(1);
 
-        Vec3 entityPos = Vec3.createVectorHelper(
-            entity.posX,
-            entity.posY + entity.height / 2.0,
-            entity.posZ
-        );
+        Vec3 entityPos = Vec3.createVectorHelper(entity.posX, entity.posY + entity.height / 2.0, entity.posZ);
 
         Vec3 playerToEntityVec = Vec3.createVectorHelper(
             entityPos.xCoord - playerEyePos.xCoord,
             entityPos.yCoord - playerEyePos.yCoord,
-            entityPos.zCoord - playerEyePos.zCoord
-        );
+            entityPos.zCoord - playerEyePos.zCoord);
 
         /*
          * Negative dot product means that playerLookVec and playerToEntityVec have an angle of more than 90 degrees,

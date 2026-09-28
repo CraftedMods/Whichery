@@ -1,15 +1,16 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.google.common.collect.ImmutableList;
-import com.supersouper.whichery.common.entity.demon.IDemon;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAIBase;
+import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.ai.EntityAIBase;
+
+import com.google.common.collect.ImmutableList;
+import com.supersouper.whichery.common.entity.demon.IDemon;
 
 public class EntityAIUnrestAroundDemon extends EntityAIBase {
 
@@ -77,8 +78,7 @@ public class EntityAIUnrestAroundDemon extends EntityAIBase {
     }
 
     private boolean isDemonNearby() {
-        return !entity.worldObj
-            .selectEntitiesWithinAABB(IDemon.class, this.entity.boundingBox.expand(10, 10, 10), null)
+        return !entity.worldObj.selectEntitiesWithinAABB(IDemon.class, this.entity.boundingBox.expand(10, 10, 10), null)
             .isEmpty();
     }
 }

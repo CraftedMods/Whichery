@@ -1,10 +1,5 @@
 package com.supersouper.whichery.common.event;
 
-import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
-import com.supersouper.whichery.common.entity.ai.EntityAIUnrestAroundDemon;
-import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
-import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +8,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
+import com.supersouper.whichery.common.entity.ai.EntityAIUnrestAroundDemon;
+import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
+import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @SuppressWarnings("unused")
 @EventBusSubscriber
@@ -53,8 +55,7 @@ public class DemonologyEvents {
         }
 
         if (event.entity instanceof EntityChicken chicken && !(event.entity instanceof EntityPossessedChicken))
-            if (chicken.ticksExisted == 0
-                && world.rand.nextInt(100) == 0) {
+            if (chicken.ticksExisted == 0 && world.rand.nextInt(100) == 0) {
 
                 EntityPossessedChicken possessedChicken = EntityPossessedChicken.createPossessedChicken(chicken);
 

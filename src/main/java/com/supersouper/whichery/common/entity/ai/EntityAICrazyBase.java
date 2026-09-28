@@ -1,17 +1,18 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.mixins.accessors.EntityLivingBaseAccessor;
+import java.util.Objects;
+import java.util.Random;
+
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 
-import java.util.Objects;
-import java.util.Random;
+import com.supersouper.whichery.mixins.accessors.EntityLivingBaseAccessor;
 
 /**
  * Base class for "crazy" behavior. Crazy behavior means:
  * <ul>
- *     <li>It is only for a limited duration</li>
- *     <li>The crazy entity may scream during it</li>
+ * <li>It is only for a limited duration</li>
+ * <li>The crazy entity may scream during it</li>
  * </ul>
  */
 public abstract class EntityAICrazyBase extends EntityAIBase {

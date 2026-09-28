@@ -1,8 +1,7 @@
 package com.supersouper.whichery.common.entity.demon;
 
-import com.supersouper.whichery.common.entity.ai.EntityAICancelAttackWhenPlayerWatches;
-import com.supersouper.whichery.common.entity.ai.EntityAIStareBackAtAwarePlayer;
-import com.supersouper.whichery.common.util.EntityUtils;
+import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;
@@ -12,7 +11,9 @@ import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+import com.supersouper.whichery.common.entity.ai.EntityAICancelAttackWhenPlayerWatches;
+import com.supersouper.whichery.common.entity.ai.EntityAIStareBackAtAwarePlayer;
+import com.supersouper.whichery.common.util.EntityUtils;
 
 public class EntityPossessedChicken extends EntityChicken implements IPossessedAnimal {
 
@@ -46,13 +47,9 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedA
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(11, new EntityAILookIdle(this));
 
-        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(
-            this,
-            EntityChicken.class,
-            minutesToTicks(20),
-            false,
-            true,
-            entity -> {
+        this.targetTasks.addTask(
+            0,
+            new EntityAINearestAttackableTarget(this, EntityChicken.class, minutesToTicks(20), false, true, entity -> {
                 if (entity instanceof EntityChicken && !(entity instanceof EntityPossessedChicken)) {
                     return EntityUtils.canEntitiesFightWithoutNearbyPlayersWatching(this, entity);
                 }

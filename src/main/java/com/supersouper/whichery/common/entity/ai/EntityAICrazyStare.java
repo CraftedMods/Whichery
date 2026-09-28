@@ -1,8 +1,8 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import net.minecraft.entity.EntityCreature;
-
 import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+
+import net.minecraft.entity.EntityCreature;
 
 public class EntityAICrazyStare extends EntityAICrazyBase {
 
@@ -26,8 +26,7 @@ public class EntityAICrazyStare extends EntityAICrazyBase {
     public void startExecuting() {
         super.startExecuting();
 
-        this.yOffset = this.rand
-            .nextBoolean() ? 1 : 0; // Either stare up or down
+        this.yOffset = this.rand.nextBoolean() ? 1 : 0; // Either stare up or down
     }
 
     @Override

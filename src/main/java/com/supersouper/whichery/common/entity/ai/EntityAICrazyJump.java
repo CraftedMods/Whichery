@@ -36,11 +36,13 @@ public class EntityAICrazyJump extends EntityAICrazyBase {
 
     @Override
     protected int getRandomDurationTicks() {
-        return 200 + this.entity.getRNG().nextInt(500);
+        return 200 + this.entity.getRNG()
+            .nextInt(500);
     }
 
     private void jumpAndScream() {
-        this.entity.getJumpHelper().setJumping();
+        this.entity.getJumpHelper()
+            .setJumping();
         screamIfPossible();
 
     }

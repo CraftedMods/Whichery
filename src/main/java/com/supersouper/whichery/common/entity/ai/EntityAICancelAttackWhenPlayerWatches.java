@@ -1,10 +1,11 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.common.util.EntityUtils;
+import java.util.Objects;
+
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 
-import java.util.Objects;
+import com.supersouper.whichery.common.util.EntityUtils;
 
 public class EntityAICancelAttackWhenPlayerWatches extends EntityAIBase {
 
@@ -18,7 +19,8 @@ public class EntityAICancelAttackWhenPlayerWatches extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        if (entity.getAttackTarget() != null && entity.getAttackTarget().isEntityAlive() && entity.ticksExisted % 5 == 0) {
+        if (entity.getAttackTarget() != null && entity.getAttackTarget()
+            .isEntityAlive() && entity.ticksExisted % 5 == 0) {
             return !EntityUtils.canEntitiesFightWithoutNearbyPlayersWatching(entity, entity.getAttackTarget());
         }
 
@@ -28,7 +30,8 @@ public class EntityAICancelAttackWhenPlayerWatches extends EntityAIBase {
     @Override
     public void startExecuting() {
         this.entity.setAttackTarget(null);
-        this.entity.getNavigator().clearPathEntity();
+        this.entity.getNavigator()
+            .clearPathEntity();
     }
 
     @Override

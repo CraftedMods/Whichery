@@ -1,10 +1,10 @@
 package com.supersouper.whichery.common.entity.ai;
 
+import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
+
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.util.Vec3;
-
-import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
 
 /**
  * Panic with no apparent reason.
@@ -39,7 +39,8 @@ public class EntityAICrazyPanic extends EntityAICrazyBase {
     public void startExecuting() {
         super.startExecuting();
 
-        this.entity.getNavigator().tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
+        this.entity.getNavigator()
+            .tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
     }
 
     /**
@@ -47,10 +48,12 @@ public class EntityAICrazyPanic extends EntityAICrazyBase {
      */
     public boolean continueExecuting() {
         if (super.continueExecuting()) {
-            if (!this.entity.getNavigator().noPath()) {
+            if (!this.entity.getNavigator()
+                .noPath()) {
                 return true;
             } else if (tryToFindRandomPosition()) {
-                this.entity.getNavigator().tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
+                this.entity.getNavigator()
+                    .tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
                 return true;
             }
         }

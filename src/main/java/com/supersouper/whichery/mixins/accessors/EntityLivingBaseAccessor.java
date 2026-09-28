@@ -1,6 +1,7 @@
 package com.supersouper.whichery.mixins.accessors;
 
 import net.minecraft.entity.EntityLivingBase;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
