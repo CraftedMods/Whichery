@@ -11,4 +11,10 @@ public interface EntityLivingBaseAccessor {
     @Invoker("getHurtSound")
     String getHurtSoundMixin();
 
+    @Invoker("getSoundVolume")
+    float getSoundVolumeMixin();
+
+    @Invoker("getSoundPitch")
+    float getSoundPitchMixin();
+
 }
