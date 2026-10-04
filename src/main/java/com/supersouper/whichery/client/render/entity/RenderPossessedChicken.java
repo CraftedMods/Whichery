@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderChicken;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -213,5 +214,16 @@ public class RenderPossessedChicken extends RenderChicken {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public void doRenderShadowAndFire(Entity entity, double x, double y, double z, float yaw, float partialTicks) {
+        /*
+         * This method is invoked in both pass 0 and 1. We only want to render it in pass 0 (otherwise the shadow is
+         * rendered twice and appears darker).
+         */
+        if (MinecraftForgeClient.getRenderPass() == 0) {
+            super.doRenderShadowAndFire(entity, x, y, z, yaw, partialTicks);
+        }
     }
 }
