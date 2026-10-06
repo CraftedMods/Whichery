@@ -34,3 +34,4 @@ tooltip.item.apple_that_makes_you_see_demons=Debug item. Eat to be toggle the ab
 ### Entities
 entity.whichery.MandrakeRoot.name=Mandrake Root
 entity.whichery.PossessedChicken.name=Possessed Chicken
+entity.whichery.DemonicShadow.name=Demonic Shadow
