@@ -1,15 +1,16 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.api.demonology.IPossessedAnimal;
-import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
-import com.supersouper.whichery.mixins.accessors.EntityLivingBaseAccessor;
+import static com.supersouper.whichery.api.demonology.PossessedAnimalRegistry.createPossessedEntityFromHost;
+
+import java.util.Objects;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-import java.util.Objects;
-
-import static com.supersouper.whichery.api.demonology.PossessedAnimalRegistry.createPossessedEntityFromHost;
+import com.supersouper.whichery.api.demonology.IPossessedAnimal;
+import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
+import com.supersouper.whichery.mixins.accessors.EntityLivingBaseAccessor;
 
 /**
  * Possesses the entity the demon is attached to.
@@ -31,8 +32,7 @@ public class EntityAIPossessTarget extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        return demon.ridingEntity != null
-            && demon.ridingEntity instanceof EntityLivingBase entityLivingBase
+        return demon.ridingEntity != null && demon.ridingEntity instanceof EntityLivingBase entityLivingBase
             && IPossessedAnimal.canBePossessed(entityLivingBase);
     }
 

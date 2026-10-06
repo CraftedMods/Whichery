@@ -1,15 +1,16 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.api.demonology.IPossessedAnimal;
-import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.AxisAlignedBB;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.util.AxisAlignedBB;
+
+import com.supersouper.whichery.api.demonology.IPossessedAnimal;
+import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
 
 public class EntityAIRandomTargetToPossess extends EntityAIBase {
 

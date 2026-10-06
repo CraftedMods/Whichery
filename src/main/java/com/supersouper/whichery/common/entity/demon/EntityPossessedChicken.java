@@ -2,7 +2,6 @@ package com.supersouper.whichery.common.entity.demon;
 
 import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
 
-import com.supersouper.whichery.api.demonology.IPossessedAnimal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;
@@ -12,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+import com.supersouper.whichery.api.demonology.IPossessedAnimal;
 import com.supersouper.whichery.common.entity.ai.EntityAICancelAttackWhenPlayerWatches;
 import com.supersouper.whichery.common.entity.ai.EntityAIStareBackAtAwarePlayer;
 import com.supersouper.whichery.common.util.EntityUtils;

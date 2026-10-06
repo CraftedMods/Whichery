@@ -1,15 +1,18 @@
 package com.supersouper.whichery.api.demonology;
 
-import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityChicken;
-import org.apache.commons.lang3.Validate;
-
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityChicken;
+
+import org.apache.commons.lang3.Validate;
+
+import com.supersouper.whichery.common.entity.demon.EntityPossessedChicken;
 
 public final class PossessedAnimalRegistry {
 
@@ -20,7 +23,11 @@ public final class PossessedAnimalRegistry {
     }
 
     static {
-        register(new PossessedAnimalRegistration<>(EntityChicken.class, EntityPossessedChicken.class, EntityPossessedChicken::createPossessedChicken));
+        register(
+            new PossessedAnimalRegistration<>(
+                EntityChicken.class,
+                EntityPossessedChicken.class,
+                EntityPossessedChicken::createPossessedChicken));
     }
 
     public static void register(PossessedAnimalRegistration<?, ?> registration) {
@@ -49,10 +56,12 @@ public final class PossessedAnimalRegistry {
 
     @SuppressWarnings("unchecked")
     public static <A extends EntityLivingBase> Entity createPossessedEntityFromHost(A entity) {
-        PossessedAnimalRegistration<A, ? extends IPossessedAnimal> registration = PossessedAnimalRegistry.get((Class<A>) entity.getClass());
+        PossessedAnimalRegistration<A, ? extends IPossessedAnimal> registration = PossessedAnimalRegistry
+            .get((Class<A>) entity.getClass());
 
         if (registration != null) {
-            return registration.createPossessedEntityFunction().apply(entity);
+            return registration.createPossessedEntityFunction()
+                .apply(entity);
         }
 
         return null;

@@ -1,13 +1,14 @@
 package com.supersouper.whichery.common.entity.demon;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityFlying;
+import net.minecraft.world.World;
+
 import com.supersouper.whichery.api.demonology.IDemon;
 import com.supersouper.whichery.common.entity.ai.EntityAIDemonicShadowIdle;
 import com.supersouper.whichery.common.entity.ai.EntityAIFlyToTargetAndAttach;
 import com.supersouper.whichery.common.entity.ai.EntityAIPossessTarget;
 import com.supersouper.whichery.common.entity.ai.EntityAIRandomTargetToPossess;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityFlying;
-import net.minecraft.world.World;
 
 public class EntityDemonicShadow extends EntityFlying implements IDemon {
 

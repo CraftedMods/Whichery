@@ -1,14 +1,16 @@
 package com.supersouper.whichery.client.render.entity;
 
-import com.supersouper.whichery.Whichery;
-import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import com.supersouper.whichery.Whichery;
+import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
 
 public class RenderDemonicShadow extends Render {
 

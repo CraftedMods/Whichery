@@ -1,12 +1,13 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.api.demonology.IPossessedAnimal;
-import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
+import java.util.Objects;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.MathHelper;
 
-import java.util.Objects;
+import com.supersouper.whichery.api.demonology.IPossessedAnimal;
+import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
 
 /**
  * Flies to a suitable attack target and attaches itself to it via the MC riding system.

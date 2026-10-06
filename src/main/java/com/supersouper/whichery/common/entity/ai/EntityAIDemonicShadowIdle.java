@@ -1,10 +1,11 @@
 package com.supersouper.whichery.common.entity.ai;
 
-import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
-import net.minecraft.entity.ai.EntityAIBase;
-
 import java.util.Objects;
 import java.util.Random;
+
+import net.minecraft.entity.ai.EntityAIBase;
+
+import com.supersouper.whichery.common.entity.demon.EntityDemonicShadow;
 
 public class EntityAIDemonicShadowIdle extends EntityAIBase {
 
