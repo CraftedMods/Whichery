@@ -16,7 +16,10 @@ import com.supersouper.whichery.common.entity.ai.EntityAICancelAttackWhenPlayerW
 import com.supersouper.whichery.common.entity.ai.EntityAIStareBackAtAwarePlayer;
 import com.supersouper.whichery.common.util.EntityUtils;
 
-public class EntityPossessedChicken extends EntityChicken implements IPossessedAnimal {
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import io.netty.buffer.ByteBuf;
+
+public class EntityPossessedChicken extends EntityChicken implements IPossessedAnimal, IEntityAdditionalSpawnData {
 
     private static final int STARING_AT_AWARE_PLAYER_DATA_WATCHER_KEY = 15;
 
@@ -89,13 +92,77 @@ public class EntityPossessedChicken extends EntityChicken implements IPossessedA
         return chicken;
     }
 
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
+
+        if (!worldObj.isRemote) {
+            EntityDemonicShadow demonSmokeForm = new EntityDemonicShadow(worldObj);
+            demonSmokeForm.setPosition(posX, posY, posZ);
+
+            worldObj.spawnEntityInWorld(demonSmokeForm);
+        }
+    }
+
+    /*
+     * Send those to the client upon spawn. This is important, as a demon possessing a normal chicken replaces the
+     * chicken
+     * entity with this one. The rotation values are set to be exactly the same ones as the original chicken;
+     * otherwise the player notices that the entity is switched. Immediately send them to the client upon spawn, so
+     * they are applied from the first frame on.
+     * Make sure that the values are read and applied in "readSpawnData".
+     */
+    @Override
+    public void writeSpawnData(ByteBuf buffer) {
+        buffer.writeFloat(this.rotationYaw);
+        buffer.writeFloat(this.rotationPitch);
+        buffer.writeFloat(this.rotationYawHead);
+        buffer.writeFloat(this.renderYawOffset);
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf buffer) {
+        float yaw = buffer.readFloat();
+        float pitch = buffer.readFloat();
+        float yawHead = buffer.readFloat();
+        float renderYaw = buffer.readFloat();
+
+        this.setLocationAndAngles(this.posX, this.posY, this.posZ, yaw, pitch);
+
+        this.prevRotationYaw = yaw;
+        this.prevRotationPitch = pitch;
+
+        this.rotationYawHead = yawHead;
+        this.prevRotationYawHead = yawHead;
+
+        this.renderYawOffset = renderYaw;
+        this.prevRenderYawOffset = renderYaw;
+    }
+
     public static EntityPossessedChicken createPossessedChicken(EntityChicken chicken) {
         EntityPossessedChicken possessedChicken = new EntityPossessedChicken(chicken.worldObj);
         possessedChicken
             .setLocationAndAngles(chicken.posX, chicken.posY, chicken.posZ, chicken.rotationYaw, chicken.rotationPitch);
 
+        possessedChicken.prevRotationYaw = chicken.prevRotationYaw;
+        possessedChicken.prevRotationPitch = chicken.prevRotationPitch;
+
+        possessedChicken.rotationYawHead = chicken.rotationYawHead;
+        possessedChicken.prevRotationYawHead = chicken.prevRotationYawHead;
+
+        possessedChicken.renderYawOffset = chicken.renderYawOffset;
+        possessedChicken.prevRenderYawOffset = chicken.prevRenderYawOffset;
+
         possessedChicken.setHealth(chicken.getHealth());
         possessedChicken.setGrowingAge(chicken.getGrowingAge());
+
+        if (chicken.hasCustomNameTag()) {
+            possessedChicken.setCustomNameTag(chicken.getCustomNameTag());
+        }
+
+        if (chicken.getLeashedToEntity() != null) {
+            possessedChicken.setLeashedToEntity(chicken.getLeashedToEntity(), true);
+        }
 
         return possessedChicken;
     }
