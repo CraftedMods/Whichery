@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
+import com.supersouper.whichery.api.demonology.IPossessedEntity;
 import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-import com.supersouper.whichery.common.entity.demon.IPossessedEntity;
+import com.supersouper.whichery.api.demonology.IPossessedEntity;
 import com.supersouper.whichery.common.entity.extendedproperties.DemonologyProperty;
 
 public class EntityAIStareBackAtAwarePlayer<T extends EntityCreature & IPossessedEntity> extends EntityAIBase {

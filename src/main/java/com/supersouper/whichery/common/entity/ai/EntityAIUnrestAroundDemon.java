@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 
 import com.google.common.collect.ImmutableList;
-import com.supersouper.whichery.common.entity.demon.IDemon;
+import com.supersouper.whichery.api.demonology.IDemon;
 
 /*
  * This is a "composite" AI task that delegates to other tasks.

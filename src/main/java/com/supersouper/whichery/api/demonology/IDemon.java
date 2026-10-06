@@ -1,4 +1,4 @@
-package com.supersouper.whichery.common.entity.demon;
+package com.supersouper.whichery.api.demonology;
 
 /**
  * Interface for demons (including possessed hosts).

@@ -2,6 +2,7 @@ package com.supersouper.whichery.common.entity.demon;
 
 import static com.supersouper.whichery.common.util.TimeUtils.minutesToTicks;
 
+import com.supersouper.whichery.api.demonology.IPossessedAnimal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;

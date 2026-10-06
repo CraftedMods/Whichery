@@ -1,6 +1,7 @@
-package com.supersouper.whichery.common.entity.demon;
+package com.supersouper.whichery.api.demonology;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 
 public interface IPossessedEntity extends IDemon {
 
