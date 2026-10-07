@@ -231,4 +231,9 @@ public class EntityAIDemonicShadowIdle extends EntityAIBase {
         demon.motionY *= amount;
         demon.motionZ *= amount;
     }
+
+    @Override
+    public void resetTask() {
+        durationTicks = 0;
+    }
 }

@@ -17,8 +17,8 @@ import com.supersouper.whichery.mixins.accessors.EntityLivingBaseAccessor;
  */
 public class EntityAIPossessTarget extends EntityAIBase {
 
-    private static final int SHRINK_START_TIME_TICKS = 20;
-    private static final int POSSESS_TIME_TICKS = 80;
+    public static final int SHRINK_START_TIME_TICKS = 20;
+    public static final int POSSESS_TIME_TICKS = 80;
 
     private final EntityDemonicShadow demon;
 
@@ -33,7 +33,7 @@ public class EntityAIPossessTarget extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
         return demon.ridingEntity != null && demon.ridingEntity instanceof EntityLivingBase entityLivingBase
-            && IPossessedAnimal.canBePossessed(entityLivingBase);
+            && IPossessedAnimal.canBePossessedByDemonicShadow(entityLivingBase, demon);
     }
 
     @Override
