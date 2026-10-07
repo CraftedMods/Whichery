@@ -29,6 +29,7 @@ public class EntityDemonicShadow extends EntityFlying implements IDemon {
 
         this.setSize(1, 1.5f);
         this.noClip = true;
+        this.isImmuneToFire = true; // So it does not render a burning animation
 
         setupAI();
     }
